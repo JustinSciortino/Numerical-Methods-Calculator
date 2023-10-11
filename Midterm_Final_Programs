@@ -1,0 +1,37 @@
+*Any bracketing method question: Newton.py located in L2_Bracket_Open_Methods
+*Using bisection method to solve for x in the matrix: BisectionQuestion_OldMidterm.py located in L2_Bracket_Open_Methods
+*Calculate the error magnification error factor: ErrorMagnificationFactor.py located in L2_Bracket_Open_Methods
+*Determine which functions follow some proposed Xr below the tolerance: FunctionsWithProposedXr.py located in
+ L2_Bracket_Open_Methods
+*Determine the Multiplicity of a root: Multiplicity.py located in L2_Bracket_Open_Methods
+*Determine the number of iterations required to reach a certain tolerance: Iterations.py located in
+ L2_Bracket_Open_Methods
+
+*Multiple choice question where you are given matrices A and b and must determine the closest
+ approximation: ClosestApproximation.py located in L3_Systems_Of_Linear_Equations
+*Given the A, b and Xr matrices determine the R matrix, relative and absolute forward and backwards errors,
+ the error magnification factor,conditional of matrix A, digits lost: Errors.py located in L3_Systems_Of_Linear_Equations
+*Given some matrix, solve for the numbers in the X and d vectors: Finding_X_d_Vectors.py located in
+ L3_Systems_Of_Linear_Equations
+*Determine the maximal value for a matrix and the conditional of such matrix: ValueOfDMaximal.py located in
+ L3_Systems_Of_Linear_Equations
+*Given ONLY the A matrix, calculate the conditional, all norms, error magnification factor:
+ VectorNorms_Conditioning_Calculator.py located in L3_Systems_Of_Linear_Equations
+
+*Calculate the X order derivative of the function, max y value in the interval, and estimate of the interpolation error at
+ some x value: InterpolatingFunctions.py located in L4_Regression_Interpolation
+*Calculate the lagrange L1, L2, L3 values and calculate the lagrange at some x value: Lagrange.py located in
+ L4_Regression_Interpolation
+*Calculate the A, B, C denominators in the lagrange equation: Lagrange_denominators.py located in
+ L4_Regression_Interpolation
+*Calculate the least square fitting equation (a0, and a1), RMSE, MSE, SE: :LeastSquaresFitting.py located in
+ L4_Regression_Interpolation
+*Calculating the linearization of the equation 1/y = a0 + a1*x + a2*x^2: Linearization.py located in
+ L4_Regression_Interpolation
+*Calculate the coefficients of the Newton Interpolation: NewtonInterpolation.py located in L4_Regression_Interpolation
+*Excel type equations using normal equations: NormalEquations.py or Normal_Equations_Version2 located in
+ L4_Regression_Interpolation
+*Calculate the spline interpolation: SplineInterpolation.py located in L4_Regression_Interpolation
+*Calculate the square error: SquareError.py located in L4_Regression_Interpolation
+*Calculate Van Der Mond: VanDerMond.py located in L4_Regression_Interpolation
+
