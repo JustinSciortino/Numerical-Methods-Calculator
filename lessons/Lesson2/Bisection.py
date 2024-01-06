@@ -1,10 +1,22 @@
-#test
-
 from sympy import symbols, diff, cos, exp, sin, ln, log, factorial
 import pandas as pd
 from Iterations import findNumberOfIterations
 
-def BisectionMethod(equation, sigfig, tolerance, ao, bo):
+def BisectionMethod(equation, significantFigures, tolerance, ao, bo):
+    def generateDiagram():
+        pd.set_option('display.float_format', lambda x: f"{x:.{significantFigures}f}")
+        df = pd.DataFrame(bisectionList, columns=['i', 'ai', 'bi', 'xi', 'f(ai)', 'f(bi)', 'f(xi)'])
+        df.set_index('i', inplace=True)
+        print(df)
+        print('\n')
+        
+    def findXi(a,b):
+        xi = (a+b)/2
+        return xi
+
+    def inputValueIntoEquation(val):
+        return equation.subs(x, val)
+
     x = symbols('x')
     #Only lines 8-12 must be modified. Input the required equation and the initial guess bracket.
     #equation = (exp(x)/(x-4))+3
@@ -16,14 +28,6 @@ def BisectionMethod(equation, sigfig, tolerance, ao, bo):
     positiveSign = "+"
     bisectionList = []
     n = findNumberOfIterations(ao, bo, tolerance) #number of iterations needed that are within the tolerancerance
-
-    def findXi(a,b):
-        xi = (a+b)/2
-        return xi
-
-    def inputValueIntoEquation(val):
-        v = equation.subs(x, val)
-        return v
 
     for i in range(n+1):
         signOfXi = ""
@@ -95,13 +99,6 @@ def BisectionMethod(equation, sigfig, tolerance, ao, bo):
 
                 sublist = [i, ai, bi, xi, signOfAi, signOfBi, signOfXi]
                 bisectionList.append(sublist)
-
-    def generateDiagram():
-        pd.set_option('display.float_format', lambda x: f"{x:.{significantFigures}f}")
-        df = pd.DataFrame(bisectionList, columns=['i', 'ai', 'bi', 'xi', 'f(ai)', 'f(bi)', 'f(xi)'])
-        df.set_index('i', inplace=True)
-        print(df)
-        print('\n')
 
     generateDiagram()
     print("Answer: ", bisectionList[-1][-4], " +/- ", tolerance, " *WARNING MUST BE SAME NUMBER OF significantFigures OR DECIMAL DIGITS \nIe if tolerance "

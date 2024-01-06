@@ -1,4 +1,4 @@
-from sympy import log
+from sympy import log, sin, cos, exp, ln
 import math
 
 #Input values

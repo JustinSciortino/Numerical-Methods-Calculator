@@ -4,9 +4,7 @@ import numpy as np
 You must enter the matrix A in the calculate_determinant function on line 11. You may have to change the value to 
 subtract from the matrix in the f(x) function on line 31. You have to provide the initial interval for x in the 
 initial_interval variable on line 35 and provide the tolerance on line 38.
-
 """
-
 
 # Function to calculate the determinant of the matrix A with a given x
 def calculate_determinant(x):
