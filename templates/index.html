@@ -1,164 +1,175 @@
 <!-- templates/index.html -->
 
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block title %}Numerical Methods Calculator{%
+endblock %} {% block content %}
+<h2>Numerical Methods Calculator</h2>
 
-{% block title %}Numerical Methods Calculator{% endblock %}
+<form id="calculatorForm">
+  <label for="lesson">Select Lesson:</label>
+  <select id="lesson" name="lesson" onchange="updateForm()">
+    <option value="lesson1">Lesson 1</option>
+    <option value="lesson2">Lesson 2</option>
+    <!-- Add more options for other lessons -->
+  </select>
 
-{% block content %}
-    <h2>Numerical Methods Calculator</h2>
+  <label for="subCalculator">Select Sub-Calculator:</label>
+  <select id="subCalculator" name="subCalculator">
+    <option value="bisection">Bisection</option>
+    <option value="gaussianElimination">Gaussian Elimination</option>
+    <option value="newton">Newton's Method</option>
+    <option value="root">Root Method</option>
+    <!-- Add more options based on lessons -->
+  </select>
 
-    <form id="calculatorForm">
-        <label for="lesson">Select Lesson:</label>
-        <select id="lesson" name="lesson" onchange="updateForm()">
-            <option value="lesson1">Lesson 1</option>
-            <option value="lesson2">Lesson 2</option>
-            <!-- Add more options for other lessons -->
-        </select>
+  <!-- Input boxes for Bisection calculator arguments -->
+  <div id="bisectionInputs">
+    <label for="function">Function:</label>
+    <input type="text" id="function" name="function" required />
 
-        <label for="subCalculator">Select Sub-Calculator:</label>
-        <select id="subCalculator" name="subCalculator">
-            <option value="bisection">Bisection</option>
-            <option value="gaussianElimination">Gaussian Elimination</option>
-            <option value="newton">Newton's Method</option>
-            <option value="root">Root Method</option>
-            <!-- Add more options based on lessons -->
-        </select>
+    <label for="a">a:</label>
+    <input type="number" id="a" name="a" required />
 
-        <!-- Input boxes for Bisection calculator arguments -->
-        <div id="bisectionInputs">
-            <label for="function">Function:</label>
-            <input type="text" id="function" name="function" required>
+    <label for="b">b:</label>
+    <input type="number" id="b" name="b" required />
 
-            <label for="a">a:</label>
-            <input type="number" id="a" name="a" required>
+    <label for="tolerance">Tolerance:</label>
+    <input type="number" id="tolerance" name="tolerance" required />
 
-            <label for="b">b:</label>
-            <input type="number" id="b" name="b" required>
+    <label for="maxIterations">Max Iterations:</label>
+    <input type="number" id="maxIterations" name="maxIterations" required />
+  </div>
 
-            <label for="tolerance">Tolerance:</label>
-            <input type="number" id="tolerance" name="tolerance" required>
+  <!-- Input boxes for Gaussian Elimination calculator arguments -->
+  <div id="gaussianEliminationInputs">
+    <label for="matrix"
+      >Matrix (e.g., [[1, 2, 3], [4, 5, 6], [7, 8, 9]]):</label
+    >
+    <input type="text" id="matrix" name="matrix" required />
 
-            <label for="maxIterations">Max Iterations:</label>
-            <input type="number" id="maxIterations" name="maxIterations" required>
-        </div>
+    <label for="vector">Vector (e.g., [1, 2, 3]):</label>
+    <input type="text" id="vector" name="vector" required />
 
-        <!-- Input boxes for Gaussian Elimination calculator arguments -->
-        <div id="gaussianEliminationInputs">
-            <label for="matrix">Matrix (e.g., [[1, 2, 3], [4, 5, 6], [7, 8, 9]]):</label>
-            <input type="text" id="matrix" name="matrix" required>
+    <label for="variable">Variable (e.g., x):</label>
+    <input type="text" id="variable" name="variable" required />
+  </div>
 
-            <label for="vector">Vector (e.g., [1, 2, 3]):</label>
-            <input type="text" id="vector" name="vector" required>
+  <!-- Input boxes for Newton's method calculator arguments -->
+  <div id="newtonInputs">
+    <label for="initialGuess">Initial Guess:</label>
+    <input type="number" id="initialGuess" name="initialGuess" required />
 
-            <label for="variable">Variable (e.g., x):</label>
-            <input type="text" id="variable" name="variable" required>
-        </div>
+    <label for="toleranceNewton">Tolerance:</label>
+    <input type="number" id="toleranceNewton" name="toleranceNewton" required />
 
-        <!-- Input boxes for Newton's method calculator arguments -->
-        <div id="newtonInputs">
-            <label for="initialGuess">Initial Guess:</label>
-            <input type="number" id="initialGuess" name="initialGuess" required>
+    <label for="maxIterationsNewton">Max Iterations:</label>
+    <input
+      type="number"
+      id="maxIterationsNewton"
+      name="maxIterationsNewton"
+      required
+    />
+  </div>
 
-            <label for="toleranceNewton">Tolerance:</label>
-            <input type="number" id="toleranceNewton" name="toleranceNewton" required>
+  <!-- Input boxes for Root method calculator arguments -->
+  <div id="rootInputs">
+    <label for="rootArgument">Root Argument:</label>
+    <input type="number" id="rootArgument" name="rootArgument" required />
 
-            <label for="maxIterationsNewton">Max Iterations:</label>
-            <input type="number" id="maxIterationsNewton" name="maxIterationsNewton" required>
-        </div>
+    <label for="toleranceRoot">Tolerance:</label>
+    <input type="number" id="toleranceRoot" name="toleranceRoot" required />
+  </div>
 
-        <!-- Input boxes for Root method calculator arguments -->
-        <div id="rootInputs">
-            <label for="rootArgument">Root Argument:</label>
-            <input type="number" id="rootArgument" name="rootArgument" required>
+  <!-- Button to trigger the calculation -->
+  <button type="button" class="btn btn-primary" onclick="performCalculation()">
+    Calculate
+  </button>
+</form>
 
-            <label for="toleranceRoot">Tolerance:</label>
-            <input type="number" id="toleranceRoot" name="toleranceRoot" required>
-        </div>
+<!-- Display the result to the user -->
+<div id="result"></div>
 
-        <!-- Button to trigger the calculation -->
-        <button type="button" class="btn btn-primary" onclick="performCalculation()">Calculate</button>
-    </form>
+<!-- JavaScript code to handle the form submission and show/hide input fields -->
+<script>
+  // Function to update the form based on the selected lesson
+  function updateForm() {
+    var lesson = document.getElementById("lesson").value;
+    var subCalculator = document.getElementById("subCalculator");
+    var subCalculatorOptions = subCalculator.options;
 
-    <!-- Display the result to the user -->
-    <div id="result"></div>
+    // Clear existing options
+    subCalculatorOptions.length = 0;
 
-    <!-- ... (your previous code) ... -->
+    // Add options based on the selected lesson
+    if (lesson === "lesson1") {
+      subCalculatorOptions.add(new Option("Bisection", "bisection"));
+      subCalculatorOptions.add(
+        new Option("Gaussian Elimination", "gaussianElimination")
+      );
+    } else if (lesson === "lesson2") {
+      subCalculatorOptions.add(new Option("Newton's Method", "newton"));
+      subCalculatorOptions.add(new Option("Root Method", "root"));
+    }
 
-    <!-- JavaScript code to handle the form submission and show/hide input fields -->
-    <script>
-        // Function to update the form based on the selected lesson
-        function updateForm() {
-            var lesson = document.getElementById('lesson').value;
-            var subCalculator = document.getElementById('subCalculator');
-            var subCalculatorOptions = subCalculator.options;
+    // Call the function to show/hide the input sections
+    updateInputSections();
+  }
 
-            // Clear existing options
-            subCalculatorOptions.length = 0;
+  // Function to show/hide input sections based on the selected sub-calculator
+  function updateInputSections() {
+    var subCalculator = document.getElementById("subCalculator").value;
+    var bisectionInputs = document.getElementById("bisectionInputs");
+    var gaussianEliminationInputs = document.getElementById(
+      "gaussianEliminationInputs"
+    );
+    var newtonInputs = document.getElementById("newtonInputs");
+    var rootInputs = document.getElementById("rootInputs");
 
-            // Add options based on the selected lesson
-            if (lesson === 'lesson1') {
-                subCalculatorOptions.add(new Option('Bisection', 'bisection'));
-                subCalculatorOptions.add(new Option('Gaussian Elimination', 'gaussianElimination'));
-            } else if (lesson === 'lesson2') {
-                subCalculatorOptions.add(new Option("Newton's Method", 'newton'));
-                subCalculatorOptions.add(new Option('Root Method', 'root'));
-            }
+    // Hide all input divs
+    bisectionInputs.style.display = "none";
+    gaussianEliminationInputs.style.display = "none";
+    newtonInputs.style.display = "none";
+    rootInputs.style.display = "none";
 
-            // Call the function to show/hide the input sections
-            updateInputSections();
-        }
+    // Show input div based on selected sub-calculator
+    if (subCalculator === "bisection") {
+      bisectionInputs.style.display = "block";
+    } else if (subCalculator === "gaussianElimination") {
+      gaussianEliminationInputs.style.display = "block";
+    } else if (subCalculator === "newton") {
+      newtonInputs.style.display = "block";
+    } else if (subCalculator === "root") {
+      rootInputs.style.display = "block";
+    }
+  }
 
-        // Function to show/hide input sections based on the selected sub-calculator
-        function updateInputSections() {
-            var subCalculator = document.getElementById('subCalculator').value;
-            var bisectionInputs = document.getElementById('bisectionInputs');
-            var gaussianEliminationInputs = document.getElementById('gaussianEliminationInputs');
-            var newtonInputs = document.getElementById('newtonInputs');
-            var rootInputs = document.getElementById('rootInputs');
+  // Wait for the DOM to be fully loaded
+  document.addEventListener("DOMContentLoaded", function () {
+    // Event listener for the "Calculate" button
+    document
+      .getElementById("calculateButton")
+      .addEventListener("click", function () {
+        // ... (rest of the code for making AJAX request)
+      });
 
-            // Hide all input divs
-            bisectionInputs.style.display = 'none';
-            gaussianEliminationInputs.style.display = 'none';
-            newtonInputs.style.display = 'none';
-            rootInputs.style.display = 'none';
+    // Event listener for the "lesson" select
+    document.getElementById("lesson").addEventListener("change", function () {
+      updateForm();
+      updateInputSections(); // Add this line to ensure correct initial state
+    });
 
-            // Show input div based on selected sub-calculator
-            if (subCalculator === 'bisection') {
-                bisectionInputs.style.display = 'block';
-            } else if (subCalculator === 'gaussianElimination') {
-                gaussianEliminationInputs.style.display = 'block';
-            } else if (subCalculator === 'newton') {
-                newtonInputs.style.display = 'block';
-            } else if (subCalculator === 'root') {
-                rootInputs.style.display = 'block';
-            }
-        }
+    // Event listener for the "subCalculator" select
+    document
+      .getElementById("subCalculator")
+      .addEventListener("change", updateInputSections);
 
-        // Wait for the DOM to be fully loaded
-        document.addEventListener('DOMContentLoaded', function () {
-            // Event listener for the "Calculate" button
-            document.getElementById('calculateButton').addEventListener('click', function () {
-                // ... (rest of the code for making AJAX request)
-            });
+    // Call the updateForm function initially to set up the form based on the initial lesson
+    updateForm();
+    updateInputSections(); // Add this line to ensure correct initial state
+  });
 
-            // Event listener for the "lesson" select
-            document.getElementById('lesson').addEventListener('change', function () {
-                updateForm();
-                updateInputSections(); // Add this line to ensure correct initial state
-            });
-
-            // Event listener for the "subCalculator" select
-            document.getElementById('subCalculator').addEventListener('change', updateInputSections);
-
-            // Call the updateForm function initially to set up the form based on the initial lesson
-            updateForm();
-            updateInputSections(); // Add this line to ensure correct initial state
-        });
-
-        // Add onload attribute to ensure the script runs after the page is fully loaded
-        window.onload = function () {
-            console.log("Page is fully loaded. Any additional code can be added here.");
-        };
-    </script>
+  // Add onload attribute to ensure the script runs after the page is fully loaded
+  window.onload = function () {
+    console.log("Page is fully loaded. Any additional code can be added here.");
+  };
+</script>
 {% endblock %}
-
